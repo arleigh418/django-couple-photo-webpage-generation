@@ -1,0 +1,44 @@
+{% extends "app/layout.html" %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+{% bootstrap_messages %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Restaurant King</title>
+</head>
+<body>
+    <h2>BaoBaoWorld世界寶寶</h2>
+    {% if request.user.is_authenticated %}
+    <p>Hi {{request.user}}, 歡迎您!</p>
+
+
+    <a href="{% url 'logout' %}">登出</a>
+    <br />
+    <br />
+    {% for active,ed_date in active_info %}
+    <p>您的啟動碼: {{active}}</p>
+    <p>啟動碼到期日: {{ed_date}} 23:59:59</p>
+    <br />
+    {% endfor %}
+    <form action=""  enctype="multipart/form-data" method="POST">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <br />
+        <input class="btn btn-primary" type="submit" value="儲存" />
+     </from>
+
+
+        {% else %}
+        <p>您尚未登入哦 <a href="/accounts/login/">登入</a></p>
+        <p>還沒有帳號嗎? <a href="{% url 'Register' %}">註冊</a></p>
+        {% endif %}
+        <br />
+        <br />
+
+</body>
+</html>
+    {% endblock %}

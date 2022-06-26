@@ -1,0 +1,38 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+<body>
+    <h1>BaoBaoWorld</h1>
+    <h3>登入</h3>
+
+    <form action="{% url 'login' %}" method="POST">
+        {% csrf_token %}
+        {{ form }}
+        <br />
+        <input class="btn btn-primary" type="submit" value="登入" />
+        <br />
+        <br />
+        {% for message in messages %}
+
+        <div class="alert alert-success">
+            <a class="close" href="#" data-dismiss="alert">×</a>
+
+            {{ message }}
+
+        </div>
+        {% endfor %}
+        <br />
+        <br />
+        <p>還沒有帳號嗎? <a href="{% url 'Register' %}">註冊</a></p>
+        <br />
+        <br />
+        <p>忘記密碼? <a href="{% url 'password_reset' %}">重置</a></p>
+        
+    </form>
+
+</body>
+</html>
+
+    {% endblock %}
