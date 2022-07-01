@@ -44,6 +44,7 @@ class HomeForm(forms.ModelForm):
     class Meta:
         model = love_bao
         fields=[
+       
             'url_def',
             'banner_pic',
             'left_bao_pic',

@@ -10,10 +10,11 @@ from statistics import mode
 from tokenize import blank_re
 from django.db import models
 from django.conf import settings
+from django.contrib.auth.models import User
 
 class love_bao(models.Model):
-    user_account_name = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,blank=True,null=True)
-    url_def = models.CharField(max_length = 100)
+    username = models.CharField(max_length = 100,blank=True,null=True,unique=True)
+    url_def = models.CharField(max_length = 100,unique=True)
     banner_pic = models.ImageField(upload_to='images/',blank=True,null=True)
     left_bao_pic = models.ImageField(upload_to='images/',blank=True,null=True)
     left_bao_ig = models.CharField(max_length= 200,blank=True,null=True)
@@ -37,6 +38,8 @@ class love_bao(models.Model):
     bao_six_pic4 = models.ImageField(upload_to='images/',blank=True,null=True)
     bao_six_pic5 = models.ImageField(upload_to='images/',blank=True,null=True)
     bao_six_pic6 = models.ImageField(upload_to='images/',blank=True,null=True)
+    def __str__(self):
+      return str(self.user)
 
 
     

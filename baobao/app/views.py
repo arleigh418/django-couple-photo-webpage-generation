@@ -24,6 +24,9 @@ from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes
 from django.conf import settings
 from django.db import connection
+from django.contrib import auth
+from .models import love_bao
+from django.forms.models import model_to_dict
 
 def home(request):
     if request.user.is_authenticated:
@@ -36,24 +39,28 @@ def home(request):
                 active_list.append(row[0])
                 end_date_list.append(row[1].strftime('%Y/%m/%d'))   
         cus_active_info = zip(active_list,end_date_list)
-        form = HomeForm()
         if request.method == "POST":
             form = HomeForm(request.POST, request.
                             FILES)
             if form.is_valid():
+                current_user = auth.get_user(request)
                 save_info = form.save(commit=False)
-                save_info.user_name = request.user
+                save_info.username = current_user
                 save_info.save()
+        else:
+            current_user = auth.get_user(request)
+            user_info_get = love_bao.objects.filter(username=current_user).first()
+            if user_info_get is not None:
+                user_info = model_to_dict(user_info_get)
+            else:
+                user_info={}
+            form = HomeForm(initial=user_info)
         return render(request, 'app/index.html', {'form':form,'active_info':cus_active_info})
     else:
         return render(request,'app/index.html')
         
     
 
-
-def test(request):
-
-    return render(request, 'bao_template_01/test.html')
 
 def sign_up(request):
     form = RegisterForm()
