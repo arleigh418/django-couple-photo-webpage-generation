@@ -8,12 +8,11 @@ from pickle import FALSE
 from tkinter.tix import ROW, Form
 from urllib.request import Request
 from django.shortcuts import redirect,render
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpRequest, HttpResponse,HttpResponseRedirect
 from django.contrib.auth.forms import UserCreationForm, PasswordResetForm
 from .forms import RegisterForm,LoginForm,HomeForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.core.mail import send_mail, BadHeaderError
 from django.contrib.auth.models import User
@@ -27,6 +26,8 @@ from django.db import connection
 from django.contrib import auth
 from .models import love_bao
 from django.forms.models import model_to_dict
+from .sweet_bao import generate_sweet_bao_template
+import os
 
 def home(request):
     if request.user.is_authenticated:
@@ -43,10 +44,27 @@ def home(request):
             form = HomeForm(request.POST, request.
                             FILES)
             if form.is_valid():
+                sweet_bao_url = os.path.dirname(__file__)+r"\\templates\\sweet_bao\\"
                 current_user = auth.get_user(request)
+                user_info_get = love_bao.objects.filter(username=current_user).first()
+
+                if user_info_get is not None:
+                    user_info = model_to_dict(user_info_get)
+                    past_url = user_info['url_def']+'.html'
+                    if (os.path.exists(f'{sweet_bao_url}{past_url}')):
+                        os.remove(f'{sweet_bao_url}{past_url}')
+
                 save_info = form.save(commit=False)
                 save_info.username = current_user
+                love_bao.objects.filter(username=current_user).delete()    
                 save_info.save()
+                user_info_get = love_bao.objects.filter(username=current_user).first()
+                user_info = model_to_dict(user_info_get)
+                html_get = generate_sweet_bao_template(user_info)
+                
+                with open(f"{sweet_bao_url}{user_info['url_def']}.html", "a",encoding='utf-8') as file:
+                    file.write(html_get)
+               
         else:
             current_user = auth.get_user(request)
             user_info_get = love_bao.objects.filter(username=current_user).first()
@@ -58,8 +76,7 @@ def home(request):
         return render(request, 'app/index.html', {'form':form,'active_info':cus_active_info})
     else:
         return render(request,'app/index.html')
-        
-    
+           
 
 
 def sign_up(request):

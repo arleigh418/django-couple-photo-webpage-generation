@@ -17,6 +17,9 @@ import posixpath
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
@@ -27,6 +30,8 @@ SECRET_KEY = '07a04634-2b25-4063-a616-67d7a3d05803'
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
+
 
 # Application references
 # https://docs.djangoproject.com/en/2.1/ref/settings/#std:setting-INSTALLED_APPS
@@ -107,8 +112,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
-LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'UTC'
+LANGUAGE_CODE = 'zh-hant'
+TIME_ZONE = 'Asia/Taipei'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
