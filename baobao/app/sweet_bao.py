@@ -1,4 +1,5 @@
 
+from calendar import month
 from datetime import datetime
 from django.contrib.auth.models import User
 from django.conf import settings
@@ -15,45 +16,49 @@ def generate_sweet_bao_template(cus_data:dict):
 	if not left_bao_pic:
 		left_bao_pic ='images/groom.jpg'
 	left_bao_ig = cus_data['left_bao_ig']
+	if len(str(left_bao_ig))==0:
+		left_bao_ig = ''
+	else:
+		left_bao_ig = f'''
+		<a href="{left_bao_ig}"><i class="fa fa-instagram" style="font-size:36px"></i></a>
+		'''
+
 	left_bao_des = cus_data['left_bao_des']
 	right_bao_name = cus_data['right_bao_name']
 	right_bao_pic = url_of_images+str(cus_data['right_bao_pic'])
 	if not right_bao_pic:
 		right_bao_pic = 'images/bride.jpg'
 	right_bao_ig = cus_data['right_bao_ig']
+	if len(str(right_bao_ig))==0:
+		right_bao_ig = ''
+	else:
+		right_bao_ig = f'''
+		<a href="{right_bao_ig}"><i class="fa fa-instagram" style="font-size:36px"></i></a>
+		'''
+
 	right_bao_des = cus_data['right_bao_des']
 	bao_together_date = str(cus_data['bao_together_date'])[0:10]
 	bao_bao_talk = cus_data['bao_bao_talk']
 	bao_thing_title1 = cus_data['bao_big_thing_title1']
-	bao_thing_date1 = cus_data['bao_big_thing_date1']
+	bao_thing_date1 = str(cus_data['bao_big_thing_date1'])[:10]
 	bao_thing_des1 = cus_data['bao_big_thing_des1']
 	bao_thing_title2 = cus_data['bao_big_thing_title2']
-	bao_thing_date2 = cus_data['bao_big_thing_date2']
+	bao_thing_date2 = str(cus_data['bao_big_thing_date2'])[:10]
 	bao_thing_des2 = cus_data['bao_big_thing_des2']
 	bao_thing_title3 = cus_data['bao_big_thing_title3']
-	bao_thing_date3= cus_data['bao_big_thing_date3']
+	bao_thing_date3= str(cus_data['bao_big_thing_date3'])[:10]
 	bao_thing_des3 = cus_data['bao_big_thing_des3']
 	bao_thing_title4 = cus_data['bao_big_thing_title4']
-	bao_thing_date4 = cus_data['bao_big_thing_date4']
+	bao_thing_date4 = str(cus_data['bao_big_thing_date4'])[:10]
 	bao_thing_des4 = cus_data['bao_big_thing_des4']
-	bao_pic1 = cus_data['bao_six_pic1']
-	bao_pic2 = cus_data['bao_six_pic2']
-	bao_pic3 = cus_data['bao_six_pic3']
-	bao_pic4 = cus_data['bao_six_pic4']
-	bao_pic5 = cus_data['bao_six_pic5']
-	bao_pic6 = cus_data['bao_six_pic6']
-	if not bao_pic1:
-		bao_pic1 = url_of_images+str(bao_pic1 = cus_data['bao_six_pic1'])
-	if not bao_pic2:
-		bao_pic1 = url_of_images+str(bao_pic1 = cus_data['bao_six_pic2'])
-	if not bao_pic3:
-		bao_pic1 = url_of_images+str(bao_pic1 = cus_data['bao_six_pic3'])
-	if not bao_pic4:
-		bao_pic1 = url_of_images+str(bao_pic1 = cus_data['bao_six_pic4'])
-	if not bao_pic5:
-		bao_pic1 = url_of_images+str(bao_pic1 = cus_data['bao_six_pic5'])
-	if not bao_pic6:
-		bao_pic1 = url_of_images+str(bao_pic1 = cus_data['bao_six_pic6'])
+	
+	bao_pic1 = url_of_images+str(cus_data['bao_six_pic1'])
+	bao_pic2 = url_of_images+str(cus_data['bao_six_pic2'])
+	bao_pic3 = url_of_images+str(cus_data['bao_six_pic3'])
+	bao_pic4 = url_of_images+str(cus_data['bao_six_pic4'])
+	bao_pic5 = url_of_images+str(cus_data['bao_six_pic5'])
+	bao_pic6 = url_of_images+str(cus_data['bao_six_pic6'])
+
 
 	html_1 = bao_template_region1(left_bao_name=left_bao_name,right_bao_name=right_bao_name)
 	html_2 = bao_template_region2(banner_pic = banner_pic,
@@ -89,10 +94,10 @@ def generate_sweet_bao_template(cus_data:dict):
                                   bao_pic5=bao_pic5, 
                                   bao_pic6=bao_pic6)
 
-	html_5 = bao_template_region5()
+	html_5 = bao_template_region5(bao_together_date)
 	
 	final_html = html_1+html_2+html_3+html_4+html_5
-
+	final_html = final_html.replace('None','     ')
 	
 	return final_html
 
@@ -118,7 +123,7 @@ def bao_template_region1(left_bao_name,right_bao_name):
 
             <link href='https://fonts.googleapis.com/css?family=Work+Sans:400,300,600,400italic,700' rel='stylesheet' type='text/css'>
             <link href="https://fonts.googleapis.com/css?family=Sacramento" rel="stylesheet">
-
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
             <!-- Animate.css -->
             <link rel="stylesheet" href="css/animate.css">
             <!-- Icomoon Icon Fonts-->
@@ -158,8 +163,8 @@ def bao_template_region2(banner_pic,left_bao_name,left_bao_pic,left_bao_des,left
                     <div class="display-t">
                         <div class="display-tc animate-box" data-animate-effect="fadeIn">
                             <h1>{left_bao_name} &amp; {right_bao_name}</h1>
-                            <h2>相愛的寶</h2>
-                            <div class="simply-countdown simply-countdown-one"></div>
+                            <h2>攜手共度</h2>
+                            <div class="simply-countdown simply-countdown-countup"></div>
                         </div>
                     </div>
                 </div>
@@ -183,8 +188,8 @@ def bao_template_region2(banner_pic,left_bao_name,left_bao_pic,left_bao_des,left
                     </div>
                     <div class="desc-groom">
                         <h3>{left_bao_name}</h3>
-                        <p>{left_bao_ig}</p>
                         <p>{left_bao_des}</p>
+                        {left_bao_ig}
                     </div>
                 </div>
                 <p class="heart text-center"><i class="icon-heart2"></i></p>
@@ -194,8 +199,8 @@ def bao_template_region2(banner_pic,left_bao_name,left_bao_pic,left_bao_des,left
                     </div>
                     <div class="desc-bride">
                         <h3>{right_bao_name}</h3>
-                        <p>{right_bao_ig}</p>
                         <p>{right_bao_des}</p>
+                        {right_bao_ig}
                     </div>
                 </div>
             </div>
@@ -220,7 +225,7 @@ def bao_template_region3(bao_thing_title1, bao_thing_date1, bao_thing_des1,bao_t
 					<ul class="timeline animate-box">
     '''
 
-    if not bao_thing_date1 or not bao_thing_title1 or not bao_thing_des1:
+    if  bao_thing_date1 or  bao_thing_title1 or  bao_thing_des1:
         region1 = f'''
         <li class="animate-box">
             <div class="timeline-badge" style="background-image:url(images/couple-1.jpg);"></div>
@@ -238,7 +243,7 @@ def bao_template_region3(bao_thing_title1, bao_thing_date1, bao_thing_des1,bao_t
     else:
         region1 = ''
     
-    if not bao_thing_date2 or not bao_thing_title2 or not bao_thing_des2:
+    if  bao_thing_date2 or  bao_thing_title2 or  bao_thing_des2:
         region2 = f'''
         <li class="timeline-inverted animate-box">
             <div class="timeline-badge" style="background-image:url(images/couple-2.jpg);"></div>
@@ -256,7 +261,7 @@ def bao_template_region3(bao_thing_title1, bao_thing_date1, bao_thing_des1,bao_t
     else:
         region2 = ''
 
-    if not bao_thing_date3 or not bao_thing_title3 or not bao_thing_des3:
+    if  bao_thing_date3 or  bao_thing_title3 or  bao_thing_des3:
         region3 = f'''
         <li class="animate-box">
             <div class="timeline-badge" style="background-image:url(images/couple-1.jpg);"></div>
@@ -274,7 +279,7 @@ def bao_template_region3(bao_thing_title1, bao_thing_date1, bao_thing_des1,bao_t
     else:
         region3 = ''
     
-    if not bao_thing_date4 or not bao_thing_title4 or not bao_thing_des4:
+    if  bao_thing_date4 or  bao_thing_title4 or  bao_thing_des4:
         region4 = f'''
         <li class="timeline-inverted animate-box">
             <div class="timeline-badge" style="background-image:url(images/couple-2.jpg);"></div>
@@ -332,11 +337,11 @@ def bao_template_region4(bao_pic1, bao_pic2, bao_pic3, bao_pic4, bao_pic5, bao_p
     for p in p_store:
         pic_html = f'''
         <li class="one-third animate-box" data-animate-effect="fadeIn" style="background-image: url({p}); ">
-            <a href="{p}">
+
                 <div class="case-studies-summary">
                     
                 </div>
-            </a>
+    
         </li>
         '''
         region1 = region1+pic_html
@@ -353,8 +358,14 @@ def bao_template_region4(bao_pic1, bao_pic2, bao_pic3, bao_pic4, bao_pic5, bao_p
     return bao_template_region
 
 
-def bao_template_region5():
-    bao_template_region = '''
+def bao_template_region5(bao_together_date):
+    now_time = datetime.today()
+    year_get = bao_together_date.split('-')[0]
+    month_get = bao_together_date.split('-')[1]
+    day_get = bao_together_date.split('-')[-1]
+    toghther_time = datetime(int(year_get),int(month_get),int(day_get))
+    diff_sec = str((now_time-toghther_time).seconds)
+    bao_template_1 = f'''
     <div class="gototop js-top">
         <a href="#" class="js-gotop"><i class="icon-arrow-up"></i></a>
     </div>
@@ -383,24 +394,24 @@ def bao_template_region5():
     <!-- Main -->
     <script src="js/main.js"></script>
 
-    <script>var d = new Date(new Date().getTime() + 200 * 120 * 120 * 2000);
+    <script>
+    var d = new Date(new Date().getTime() - {diff_sec});
+    '''
 
-    // default example
-    simplyCountdown('.simply-countdown-one', {
-        year: d.getFullYear(),
-        month: d.getMonth() + 1,
-        day: d.getDate()
-    });
-
-    //jQuery example
-    $('#simply-countdown-losange').simplyCountdown({
-        year: d.getFullYear(),
-        month: d.getMonth() + 1,
-        day: d.getDate(),
-        enableUtc: false
+    bao_template_2 = '''
+	// default example
+	// direct element injection & Count Up Example
+	var countUp = document.querySelector('.simply-countdown-countup');
+    simplyCountdown(countUp, {
+	year: d.getFullYear(),
+	month: d.getMonth(),
+	day: d.getDate(),
+	countUp: true
     });</script>
-
     </body>
     </html>
     '''
-    return bao_template_region
+
+	
+	
+    return bao_template_1+bao_template_2
