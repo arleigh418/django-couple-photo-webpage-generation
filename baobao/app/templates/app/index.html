@@ -5,13 +5,22 @@
 {% bootstrap_messages %}
 {% block content %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-Hant-TW">
 <head>
     <meta charset="UTF-8">
-    <title>Restaurant King</title>
 </head>
 <body>
+    {% for message in messages %}
+
+    <div class="alert alert-success">
+        <a class="close" href="#" data-dismiss="alert">×</a>
+
+        {{ message }}
+
+    </div>
+    {% endfor %}
     <h2>BaoBaoWorld世界寶寶</h2>
+
     {% if request.user.is_authenticated %}
     <p>Hi {{request.user}}, 歡迎您!</p>
 
@@ -22,16 +31,39 @@
     {% for active,ed_date in active_info %}
     <p>您的啟動碼: {{active}}</p>
     <p>啟動碼到期日: {{ed_date}} 23:59:59</p>
+    <a href={{cust_url}}>寶寶的專屬位址 </a>
+    <br />
+    <br />
+    <font color="#FF0000">*注意!因自訂寶寶的專屬網址不可重複,故您每一次有更新,請都要給一個全新的專屬網址</font>
+    <p>或是您可以先取一個暫時的,例如123,然後再把它改回去,如果無效,那可能真的是被人家選走</p>
+    <br />
     <br />
     {% endfor %}
+
+    {% if if_active == 'Y' %}
     <form action=""  enctype="multipart/form-data" method="POST">
         {% csrf_token %}
         {% bootstrap_form form %}
         <br />
         <input class="btn btn-primary" type="submit" value="儲存" />
      </from>
+     {% else %}
+     <p>您尚未擁有啟動碼!! 若是您已購買,請稍後,24h內會為您開通 </a></p>
+     <p>哪裡購買啟動碼? 這裡: <a href="">蝦皮</a></p>
+     {% endif %}
+    </br>
+     {% for message in messages %}
 
+    <div class="alert alert-success">
+        <a class="close" href="#" data-dismiss="alert">×</a>
+        <br />
+        <br />
+        {{ message }}
 
+        </div>
+        {% endfor %}
+
+        
         {% else %}
         <p>您尚未登入哦 <a href="/accounts/login/">登入</a></p>
         <p>還沒有帳號嗎? <a href="{% url 'Register' %}">註冊</a></p>

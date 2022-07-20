@@ -12,9 +12,12 @@ def generate_sweet_bao_template(cus_data:dict):
 	url_of_images = r'C:/baobaoworld/baobao/baobao/media/'
 	banner_pic = url_of_images+str(cus_data['banner_pic'])
 	left_bao_name = cus_data['left_bao_name']
-	left_bao_pic = url_of_images+str(cus_data['left_bao_pic'])
-	if not left_bao_pic:
+	left_bao_pic = str(cus_data['left_bao_pic'])
+	if len(left_bao_pic)==0:
 		left_bao_pic ='images/groom.jpg'
+	else:
+		left_bao_pic = url_of_images+left_bao_pic
+
 	left_bao_ig = cus_data['left_bao_ig']
 	if len(str(left_bao_ig))==0:
 		left_bao_ig = ''
@@ -25,9 +28,12 @@ def generate_sweet_bao_template(cus_data:dict):
 
 	left_bao_des = cus_data['left_bao_des']
 	right_bao_name = cus_data['right_bao_name']
-	right_bao_pic = url_of_images+str(cus_data['right_bao_pic'])
-	if not right_bao_pic:
+	right_bao_pic = str(cus_data['right_bao_pic'])
+	if  len(right_bao_pic)==0:
 		right_bao_pic = 'images/bride.jpg'
+	else:
+		right_bao_pic = url_of_images + right_bao_pic
+
 	right_bao_ig = cus_data['right_bao_ig']
 	if len(str(right_bao_ig))==0:
 		right_bao_ig = ''
@@ -108,7 +114,7 @@ def bao_template_region1(left_bao_name,right_bao_name):
         <head>
             <meta charset="utf-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
-            <title>Lovely Baobao - {left_bao_name} & {right_bao_name}</title>
+            <title>Lovely - {left_bao_name} & {right_bao_name}</title>
             <meta name="viewport" content="width=device-width, initial-scale=1">
             <!-- Facebook and Twitter integration -->
             <meta property="og:title" content="" />
@@ -228,7 +234,7 @@ def bao_template_region3(bao_thing_title1, bao_thing_date1, bao_thing_des1,bao_t
     if  bao_thing_date1 or  bao_thing_title1 or  bao_thing_des1:
         region1 = f'''
         <li class="animate-box">
-            <div class="timeline-badge" style="background-image:url(images/couple-1.jpg);"></div>
+            <div class="timeline-badge" style="background-image:url(images/love.png);"></div>
             <div class="timeline-panel">
                 <div class="timeline-heading">
                     <h3 class="timeline-title">{bao_thing_title1}</h3>
@@ -246,7 +252,7 @@ def bao_template_region3(bao_thing_title1, bao_thing_date1, bao_thing_des1,bao_t
     if  bao_thing_date2 or  bao_thing_title2 or  bao_thing_des2:
         region2 = f'''
         <li class="timeline-inverted animate-box">
-            <div class="timeline-badge" style="background-image:url(images/couple-2.jpg);"></div>
+            <div class="timeline-badge" style="background-image:url(images/love-plant.png);"></div>
             <div class="timeline-panel">
                 <div class="timeline-heading">
                     <h3 class="timeline-title">{bao_thing_title2}</h3>
@@ -264,7 +270,7 @@ def bao_template_region3(bao_thing_title1, bao_thing_date1, bao_thing_des1,bao_t
     if  bao_thing_date3 or  bao_thing_title3 or  bao_thing_des3:
         region3 = f'''
         <li class="animate-box">
-            <div class="timeline-badge" style="background-image:url(images/couple-1.jpg);"></div>
+            <div class="timeline-badge" style="background-image:url(images/love-letter.png);"></div>
             <div class="timeline-panel">
                 <div class="timeline-heading">
                     <h3 class="timeline-title">{bao_thing_title3}</h3>
@@ -282,7 +288,7 @@ def bao_template_region3(bao_thing_title1, bao_thing_date1, bao_thing_des1,bao_t
     if  bao_thing_date4 or  bao_thing_title4 or  bao_thing_des4:
         region4 = f'''
         <li class="timeline-inverted animate-box">
-            <div class="timeline-badge" style="background-image:url(images/couple-2.jpg);"></div>
+            <div class="timeline-badge" style="background-image:url(images/love-birds.png);"></div>
             <div class="timeline-panel">
                 <div class="timeline-heading">
                     <h3 class="timeline-title">{bao_thing_title4}</h3>

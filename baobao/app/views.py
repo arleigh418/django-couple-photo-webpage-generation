@@ -29,32 +29,77 @@ from django.forms.models import model_to_dict
 from .sweet_bao import generate_sweet_bao_template
 import os
 
+    
+
+
 def home(request):
     if request.user.is_authenticated:
+        sweet_bao_url = os.path.dirname(__file__)+r"\\templates\\sweet_bao\\"
+        sweet_bao_domain = '/sweet_bao/'
+
+        #獲取驗證碼
         user_select = f"'{request.user}'"
         active_list, end_date_list = [],[]
+        if_active = 'N'
         with connection.cursor() as cursor:
             cursor.execute(f"SELECT active_number,end_date FROM baobao.active_number where account = {user_select}")
             row = cursor.fetchone()
             if row:
                 active_list.append(row[0])
                 end_date_list.append(row[1].strftime('%Y/%m/%d'))   
+            if len(active_list)>0:if_active='Y'
         cus_active_info = zip(active_list,end_date_list)
+
+        #傳送表單時
         if request.method == "POST":
             form = HomeForm(request.POST, request.
                             FILES)
             if form.is_valid():
-                sweet_bao_url = os.path.dirname(__file__)+r"\\templates\\sweet_bao\\"
+                #獲取當前user且篩選出它的資訊
                 current_user = auth.get_user(request)
                 user_info_get = love_bao.objects.filter(username=current_user).first()
+                user_info = model_to_dict(user_info_get)
 
+                #如果user資訊不是空的,為既有客戶,刪除他的html file
                 if user_info_get is not None:
                     user_info = model_to_dict(user_info_get)
                     past_url = user_info['url_def']+'.html'
+                    cust_url = sweet_bao_domain +str(user_info['url_def'])+'.html'
                     if (os.path.exists(f'{sweet_bao_url}{past_url}')):
                         os.remove(f'{sweet_bao_url}{past_url}')
+                else:
+                    cust_url=''
 
                 save_info = form.save(commit=False)
+                #如果前面有圖片的話,繼續保存,避免客戶一直傳
+                if not save_info.banner_pic:
+                    if user_info_get.banner_pic:
+                        save_info.banner_pic = user_info_get.banner_pic
+                if not save_info.left_bao_pic:
+                    if user_info_get.left_bao_pic:
+                        save_info.left_bao_pic = user_info_get.left_bao_pic
+                if not save_info.right_bao_pic:
+                    if user_info_get.right_bao_pic:
+                        save_info.right_bao_pic = user_info_get.right_bao_pic
+                if not save_info.bao_six_pic1:
+                    if user_info_get.bao_six_pic1:
+                        save_info.bao_six_pic1 = user_info_get.bao_six_pic1
+                if not save_info.bao_six_pic2:
+                    if user_info_get.bao_six_pic2:
+                        save_info.bao_six_pic2 = user_info_get.bao_six_pic2
+                if not save_info.bao_six_pic3:
+                    if user_info_get.bao_six_pic3:
+                        save_info.bao_six_pic3 = user_info_get.bao_six_pic3
+                if not save_info.bao_six_pic4:
+                    if user_info_get.bao_six_pic4:
+                        save_info.bao_six_pic4 = user_info_get.bao_six_pic4
+                if not save_info.bao_six_pic5:
+                    if user_info_get.bao_six_pic5:
+                        save_info.bao_six_pic5 = user_info_get.bao_six_pic5
+                if not save_info.bao_six_pic6:
+                    if user_info_get.bao_six_pic6:
+                        save_info.bao_six_pic6 = user_info_get.bao_six_pic6
+                
                 save_info.username = current_user
                 love_bao.objects.filter(username=current_user).delete()    
                 save_info.save()
@@ -64,16 +109,32 @@ def home(request):
                 
                 with open(f"{sweet_bao_url}{user_info['url_def']}.html", "a",encoding='utf-8') as file:
                     file.write(html_get)
+            else:
+                messages.error(request,'表單填寫有誤,可能是自訂寶寶的專屬網址重複')
+                return render(request, 'app/index.html', locals())
                
         else:
             current_user = auth.get_user(request)
             user_info_get = love_bao.objects.filter(username=current_user).first()
             if user_info_get is not None:
                 user_info = model_to_dict(user_info_get)
+                cust_url = sweet_bao_domain +str(user_info['url_def'])+'.html'
+                user_info['bao_together_date'] = user_info['bao_together_date'].strftime('%Y-%m-%d')
+                if user_info['bao_big_thing_date1']:
+                    user_info['bao_big_thing_date1'] = user_info['bao_big_thing_date1'].strftime('%Y-%m-%d')
+                if user_info['bao_big_thing_date2']:
+                    user_info['bao_big_thing_date2'] = user_info['bao_big_thing_date2'].strftime('%Y-%m-%d')
+                if user_info['bao_big_thing_date3']:
+                    user_info['bao_big_thing_date3'] = user_info['bao_big_thing_date3'].strftime('%Y-%m-%d')
+                if user_info['bao_big_thing_date4']:
+                    user_info['bao_big_thing_date4'] = user_info['bao_big_thing_date4'].strftime('%Y-%m-%d')
+                
             else:
                 user_info={}
+                cust_url=''
+            
             form = HomeForm(initial=user_info)
-        return render(request, 'app/index.html', {'form':form,'active_info':cus_active_info})
+        return render(request, 'app/index.html', {'form':form,'active_info':cus_active_info,'cust_url':cust_url,'if_active':if_active})
     else:
         return render(request,'app/index.html')
            
