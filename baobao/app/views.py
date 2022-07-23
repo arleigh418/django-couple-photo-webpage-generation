@@ -211,3 +211,13 @@ def password_reset_request(request):
 					return redirect ("/password_reset/done/")
 	password_reset_form = PasswordResetForm()
 	return render(request=request, template_name="app/password_reset.html", context={"password_reset_form":password_reset_form})
+
+def handler404(request,exception,template_name='404.html'):
+    response = render(template_name)
+    response.status_code = 404
+    return response
+
+
+def handler500(request, *args, **argv):
+    return render(request, 'app/500.html', status=500)
+

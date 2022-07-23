@@ -11,6 +11,7 @@ from app import forms, views
 from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic import TemplateView
+from django.conf.urls import handler400, handler403, handler404, handler500
 urlpatterns = [
     path('', views.home, name='home'),
     path('home', views.home, name='home'),
@@ -25,5 +26,5 @@ urlpatterns = [
     path("password_reset", views.password_reset_request, name="password_reset"),
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-
-    
+handler404 = views.handler404
+handler500 = views.handler500
