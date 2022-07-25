@@ -10,6 +10,7 @@
     <meta charset="UTF-8">
 </head>
 <body>
+    <h2>BaoBaoWorld世界寶寶</h2>
     {% for message in messages %}
 
     <div class="alert alert-success">
@@ -19,9 +20,10 @@
 
     </div>
     {% endfor %}
-    <h2>BaoBaoWorld世界寶寶</h2>
+    
 
     {% if request.user.is_authenticated %}
+  
     <p>Hi {{request.user}}, 歡迎您!</p>
 
 
@@ -51,7 +53,8 @@
      <p>您尚未擁有啟動碼!! 若是您已購買,請稍後,24h內會為您開通 </a></p>
      <p>哪裡購買啟動碼? 這裡: <a href="">蝦皮</a></p>
      {% endif %}
-    </br>
+    <br />
+    <br />
      {% for message in messages %}
 
     <div class="alert alert-success">
@@ -65,6 +68,7 @@
 
         
         {% else %}
+      
         <p>您尚未登入哦 <a href="/accounts/login/">登入</a></p>
         <p>還沒有帳號嗎? <a href="{% url 'Register' %}">註冊</a></p>
         {% endif %}

@@ -29,9 +29,22 @@ SECRET_KEY = '07a04634-2b25-4063-a616-67d7a3d05803'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['*','https://810f-2001-b400-e441-50d8-c5ed-d845-3409-1247.jp.ngrok.io']
 
-
+# #*********************************发布IIS 必须添加的代码***************************************************
+# SITE_ROOT = os.path.abspath(os.path.dirname(__file__))
+ 
+# STATIC_URL = '/static/'
+ 
+# STATIC_ROOT = os.path.join( SITE_ROOT, 'static')
+# SITE_STATIC_ROOT = os.path.join( SITE_ROOT, 'local_static')
+ 
+# # Additional locations of static files
+# STATICFILES_DIRS = (
+#     # Don't forget to use absolute paths, not relative paths.
+#     ('', SITE_STATIC_ROOT),
+# )
+# #*************************************************************
 
 # Application references
 # https://docs.djangoproject.com/en/2.1/ref/settings/#std:setting-INSTALLED_APPS

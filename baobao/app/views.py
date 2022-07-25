@@ -109,6 +109,8 @@ def home(request):
                 
                 with open(f"{sweet_bao_url}{user_info['url_def']}.html", "a",encoding='utf-8') as file:
                     file.write(html_get)
+                messages.error(request,'填寫成功!! 快去看看你們的專屬頁面')
+             
             else:
                 messages.error(request,'表單填寫有誤,可能是自訂寶寶的專屬網址重複')
                 return render(request, 'app/index.html', locals())
