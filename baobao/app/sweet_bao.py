@@ -368,12 +368,9 @@ def bao_template_region4(bao_pic1, bao_pic2, bao_pic3, bao_pic4, bao_pic5, bao_p
 
 
 def bao_template_region5(bao_together_date):
-    now_time = datetime.today()
     year_get = bao_together_date.split('-')[0]
     month_get = bao_together_date.split('-')[1]
     day_get = bao_together_date.split('-')[-1]
-    toghther_time = datetime(int(year_get),int(month_get),int(day_get))
-    diff_sec = str((now_time-toghther_time).seconds)
     bao_template_1 = f'''
     <div class="gototop js-top">
         <a href="#" class="js-gotop"><i class="icon-arrow-up"></i></a>
@@ -404,7 +401,7 @@ def bao_template_region5(bao_together_date):
     <script src="js/main.js"></script>
 
     <script>
-    var d = new Date(new Date().getTime() - {diff_sec});
+    
     '''
 
     bao_template_2 = '''
@@ -412,10 +409,16 @@ def bao_template_region5(bao_together_date):
 	// direct element injection & Count Up Example
 	var countUp = document.querySelector('.simply-countdown-countup');
     simplyCountdown(countUp, {
-	year: d.getFullYear(),
-	month: d.getMonth(),
-	day: d.getDate(),
+    '''
+    
+    bao_template_3 = f'''
+	year: {int(year_get)},
+	month: {int(month_get)},
+	day: {int(day_get)},
 	countUp: true
+    '''
+
+    bao_template_4 = '''
     });</script>
     </body>
     </html>
@@ -423,4 +426,4 @@ def bao_template_region5(bao_together_date):
 
 	
 	
-    return bao_template_1+bao_template_2
+    return bao_template_1+bao_template_2+bao_template_3+bao_template_4

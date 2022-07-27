@@ -71,6 +71,7 @@ def home(request):
                     cust_url=''
 
                 save_info = form.save(commit=False)
+                print(user_info_get.banner_pic.url)
                 #如果前面有圖片的話,繼續保存,避免客戶一直傳
                 if not save_info.banner_pic:
                     if user_info_get.banner_pic:
@@ -105,6 +106,7 @@ def home(request):
                 save_info.save()
                 user_info_get = love_bao.objects.filter(username=current_user).first()
                 user_info = model_to_dict(user_info_get)
+                print(user_info['bao_together_date'])
                 html_get = generate_sweet_bao_template(user_info)
                 
                 with open(f"{sweet_bao_url}{user_info['url_def']}.html", "a",encoding='utf-8') as file:
@@ -121,7 +123,9 @@ def home(request):
             if user_info_get is not None:
                 user_info = model_to_dict(user_info_get)
                 cust_url = sweet_bao_domain +str(user_info['url_def'])+'.html'
+                print(user_info['bao_together_date'])
                 user_info['bao_together_date'] = user_info['bao_together_date'].strftime('%Y-%m-%d')
+                print(user_info['bao_together_date'])
                 if user_info['bao_big_thing_date1']:
                     user_info['bao_big_thing_date1'] = user_info['bao_big_thing_date1'].strftime('%Y-%m-%d')
                 if user_info['bao_big_thing_date2']:

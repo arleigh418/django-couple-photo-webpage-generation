@@ -29,7 +29,7 @@ SECRET_KEY = '07a04634-2b25-4063-a616-67d7a3d05803'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*','https://810f-2001-b400-e441-50d8-c5ed-d845-3409-1247.jp.ngrok.io']
+ALLOWED_HOSTS = ['*']
 
 # #*********************************发布IIS 必须添加的代码***************************************************
 # SITE_ROOT = os.path.abspath(os.path.dirname(__file__))
@@ -125,11 +125,11 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
-LANGUAGE_CODE = 'zh-hant'
-TIME_ZONE = 'Asia/Taipei'
-USE_I18N = True
-USE_L10N = True
-USE_TZ = True
+# LANGUAGE_CODE = 'zh-hant'
+# TIME_ZONE = 'Asia/Taipei'
+# USE_I18N = True
+# USE_L10N = True
+# USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
