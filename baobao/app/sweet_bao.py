@@ -6,10 +6,13 @@ from django.conf import settings
 from django.db import connection
 from django.contrib import auth
 from django.forms.models import model_to_dict
-
+from django.conf import settings
 
 def generate_sweet_bao_template(cus_data:dict):
-	url_of_images = r'C:/baobaoworld/baobao/baobao/media/'
+	if settings.DEBUG==True:
+		url_of_images = r'C:/baobaoworld/baobao/baobao/media/'
+	else:
+		url_of_images = r'media/'
 	banner_pic = url_of_images+str(cus_data['banner_pic'])
 	left_bao_name = cus_data['left_bao_name']
 	left_bao_pic = str(cus_data['left_bao_pic'])
