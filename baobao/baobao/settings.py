@@ -29,7 +29,7 @@ SECRET_KEY = '07a04634-2b25-4063-a616-67d7a3d05803'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['127.0.0.1','10.1.0.4','baobaoworlds.com','20.189.76.50']
 
 # #*********************************发布IIS 必须添加的代码***************************************************
 # SITE_ROOT = os.path.abspath(os.path.dirname(__file__))
@@ -100,8 +100,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'baobao',
-        'USER': 'root',
-        'PASSWORD': 'baobao418',
+        'USER': 'baobao',
+        'PASSWORD': 'asd#qw@e321',
         'HOST': '127.0.0.1',
         'PORT': '3306',
     }
@@ -140,9 +140,9 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 EMAIL_HOST = 'smtp.gmail.com'
 
-EMAIL_HOST_USER = 'arleigh668@gmail.com'
+EMAIL_HOST_USER = 'baobao@baobaoworlds.com'
 
-EMAIL_HOST_PASSWORD = 'kuqhtqwybvampjmx'
+EMAIL_HOST_PASSWORD = 'eyarpbgcvhonmido'
 
 EMAIL_PORT = 587
 

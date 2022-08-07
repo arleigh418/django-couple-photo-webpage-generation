@@ -48,6 +48,7 @@ def generate_sweet_bao_template(cus_data:dict):
 	right_bao_des = cus_data['right_bao_des']
 	bao_together_date = str(cus_data['bao_together_date'])[0:10]
 	bao_bao_talk = cus_data['bao_bao_talk']
+
 	bao_thing_title1 = cus_data['bao_big_thing_title1']
 	bao_thing_date1 = str(cus_data['bao_big_thing_date1'])[:10]
 	bao_thing_des1 = cus_data['bao_big_thing_des1']
@@ -60,14 +61,12 @@ def generate_sweet_bao_template(cus_data:dict):
 	bao_thing_title4 = cus_data['bao_big_thing_title4']
 	bao_thing_date4 = str(cus_data['bao_big_thing_date4'])[:10]
 	bao_thing_des4 = cus_data['bao_big_thing_des4']
-	
 	bao_pic1 = url_of_images+str(cus_data['bao_six_pic1'])
 	bao_pic2 = url_of_images+str(cus_data['bao_six_pic2'])
 	bao_pic3 = url_of_images+str(cus_data['bao_six_pic3'])
 	bao_pic4 = url_of_images+str(cus_data['bao_six_pic4'])
 	bao_pic5 = url_of_images+str(cus_data['bao_six_pic5'])
 	bao_pic6 = url_of_images+str(cus_data['bao_six_pic6'])
-
 
 	html_1 = bao_template_region1(left_bao_name=left_bao_name,right_bao_name=right_bao_name)
 	html_2 = bao_template_region2(banner_pic = banner_pic,
@@ -234,7 +233,7 @@ def bao_template_region3(bao_thing_title1, bao_thing_date1, bao_thing_des1,bao_t
 					<ul class="timeline animate-box">
     '''
 
-    if  bao_thing_date1 or  bao_thing_title1 or  bao_thing_des1:
+    if  bao_thing_date1!='None' or  bao_thing_title1 or  bao_thing_des1:
         region1 = f'''
         <li class="animate-box">
             <div class="timeline-badge" style="background-image:url(images/love.png);"></div>
@@ -252,7 +251,7 @@ def bao_template_region3(bao_thing_title1, bao_thing_date1, bao_thing_des1,bao_t
     else:
         region1 = ''
     
-    if  bao_thing_date2 or  bao_thing_title2 or  bao_thing_des2:
+    if  bao_thing_date2!='None' or  bao_thing_title2 or  bao_thing_des2:
         region2 = f'''
         <li class="timeline-inverted animate-box">
             <div class="timeline-badge" style="background-image:url(images/love-plant.png);"></div>
@@ -270,7 +269,7 @@ def bao_template_region3(bao_thing_title1, bao_thing_date1, bao_thing_des1,bao_t
     else:
         region2 = ''
 
-    if  bao_thing_date3 or  bao_thing_title3 or  bao_thing_des3:
+    if  bao_thing_date3!='None' or  bao_thing_title3 or  bao_thing_des3:
         region3 = f'''
         <li class="animate-box">
             <div class="timeline-badge" style="background-image:url(images/love-letter.png);"></div>
@@ -288,7 +287,7 @@ def bao_template_region3(bao_thing_title1, bao_thing_date1, bao_thing_des1,bao_t
     else:
         region3 = ''
     
-    if  bao_thing_date4 or  bao_thing_title4 or  bao_thing_des4:
+    if  bao_thing_date4!='None' or  bao_thing_title4 or  bao_thing_des4:
         region4 = f'''
         <li class="timeline-inverted animate-box">
             <div class="timeline-badge" style="background-image:url(images/love-birds.png);"></div>

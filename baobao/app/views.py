@@ -35,7 +35,7 @@ import os
 def home(request):
     if request.user.is_authenticated:
         sweet_bao_url = os.path.dirname(__file__)+r"\\templates\\sweet_bao\\"
-        sweet_bao_domain = '/sweet_bao/'
+        sweet_bao_domain = 'https://lovelybao.com/'
 
         #獲取驗證碼
         user_select = f"'{request.user}'"
@@ -58,8 +58,6 @@ def home(request):
                 #獲取當前user且篩選出它的資訊
                 current_user = auth.get_user(request)
                 user_info_get = love_bao.objects.filter(username=current_user).first()
-                user_info = model_to_dict(user_info_get)
-
                 #如果user資訊不是空的,為既有客戶,刪除他的html file
                 if user_info_get is not None:
                     user_info = model_to_dict(user_info_get)
@@ -71,42 +69,43 @@ def home(request):
                     cust_url=''
 
                 save_info = form.save(commit=False)
-                print(user_info_get.banner_pic.url)
+    
                 #如果前面有圖片的話,繼續保存,避免客戶一直傳
-                if not save_info.banner_pic:
-                    if user_info_get.banner_pic:
-                        save_info.banner_pic = user_info_get.banner_pic
-                if not save_info.left_bao_pic:
-                    if user_info_get.left_bao_pic:
-                        save_info.left_bao_pic = user_info_get.left_bao_pic
-                if not save_info.right_bao_pic:
-                    if user_info_get.right_bao_pic:
-                        save_info.right_bao_pic = user_info_get.right_bao_pic
-                if not save_info.bao_six_pic1:
-                    if user_info_get.bao_six_pic1:
-                        save_info.bao_six_pic1 = user_info_get.bao_six_pic1
-                if not save_info.bao_six_pic2:
-                    if user_info_get.bao_six_pic2:
-                        save_info.bao_six_pic2 = user_info_get.bao_six_pic2
-                if not save_info.bao_six_pic3:
-                    if user_info_get.bao_six_pic3:
-                        save_info.bao_six_pic3 = user_info_get.bao_six_pic3
-                if not save_info.bao_six_pic4:
-                    if user_info_get.bao_six_pic4:
-                        save_info.bao_six_pic4 = user_info_get.bao_six_pic4
-                if not save_info.bao_six_pic5:
-                    if user_info_get.bao_six_pic5:
-                        save_info.bao_six_pic5 = user_info_get.bao_six_pic5
-                if not save_info.bao_six_pic6:
-                    if user_info_get.bao_six_pic6:
-                        save_info.bao_six_pic6 = user_info_get.bao_six_pic6
+                if user_info_get is not None:
+                    if not save_info.banner_pic:
+                        if user_info_get.banner_pic:
+                            save_info.banner_pic = user_info_get.banner_pic
+                    if not save_info.left_bao_pic:
+                        if user_info_get.left_bao_pic:
+                            save_info.left_bao_pic = user_info_get.left_bao_pic
+                    if not save_info.right_bao_pic:
+                        if user_info_get.right_bao_pic:
+                            save_info.right_bao_pic = user_info_get.right_bao_pic
+                    if not save_info.bao_six_pic1:
+                        if user_info_get.bao_six_pic1:
+                            save_info.bao_six_pic1 = user_info_get.bao_six_pic1
+                    if not save_info.bao_six_pic2:
+                        if user_info_get.bao_six_pic2:
+                            save_info.bao_six_pic2 = user_info_get.bao_six_pic2
+                    if not save_info.bao_six_pic3:
+                        if user_info_get.bao_six_pic3:
+                            save_info.bao_six_pic3 = user_info_get.bao_six_pic3
+                    if not save_info.bao_six_pic4:
+                        if user_info_get.bao_six_pic4:
+                            save_info.bao_six_pic4 = user_info_get.bao_six_pic4
+                    if not save_info.bao_six_pic5:
+                        if user_info_get.bao_six_pic5:
+                            save_info.bao_six_pic5 = user_info_get.bao_six_pic5
+                    if not save_info.bao_six_pic6:
+                        if user_info_get.bao_six_pic6:
+                            save_info.bao_six_pic6 = user_info_get.bao_six_pic6
                 
                 save_info.username = current_user
                 love_bao.objects.filter(username=current_user).delete()    
                 save_info.save()
                 user_info_get = love_bao.objects.filter(username=current_user).first()
                 user_info = model_to_dict(user_info_get)
-                print(user_info['bao_together_date'])
+                
                 html_get = generate_sweet_bao_template(user_info)
                 
                 with open(f"{sweet_bao_url}{user_info['url_def']}.html", "a",encoding='utf-8') as file:
@@ -123,9 +122,7 @@ def home(request):
             if user_info_get is not None:
                 user_info = model_to_dict(user_info_get)
                 cust_url = sweet_bao_domain +str(user_info['url_def'])+'.html'
-                print(user_info['bao_together_date'])
                 user_info['bao_together_date'] = user_info['bao_together_date'].strftime('%Y-%m-%d')
-                print(user_info['bao_together_date'])
                 if user_info['bao_big_thing_date1']:
                     user_info['bao_big_thing_date1'] = user_info['bao_big_thing_date1'].strftime('%Y-%m-%d')
                 if user_info['bao_big_thing_date2']:
@@ -197,11 +194,11 @@ def password_reset_request(request):
 					email_template_name = "app/password_reset_email.txt"
 					c = {
 					"email":user.email,
-					'domain':'127.0.0.1:8000',
+					'domain':'baobaoworlds.com',
 					"uid": urlsafe_base64_encode(force_bytes(user.pk)),
 					"user": user,
 					'token': default_token_generator.make_token(user),
-					'protocol': 'http',
+					'protocol': 'https',
 					}
 					email = render_to_string(email_template_name, c)
 					try:
